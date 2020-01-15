@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { FETCH_USER, FETCH_SURVEYS } from './types';
+import {SET_USER} from './types';
 
-export const fetchUser = () => async dispatch => {
-  const res = await axios.get('/api/current_user');
-
-  dispatch({ type: FETCH_USER, payload: res.data });
+export const loadUser = () => dispatch => {
+  fetch('/api/current_user').then(x => x.json())
+    .then(res => {
+      dispatch({type: SET_USER, payload: typeof (res.error) === 'undefined' ? res : false});
+    });
 };

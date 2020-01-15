@@ -7,10 +7,17 @@
     "mon": "nodemon ./bin/www"
   },
   "dependencies": {
+    "connect-mongodb-session": "^2.2.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.8.6",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "passport": "^0.4.1"
+  },
+  "devDependencies": {
+    "passport-google-oauth20": "^2.0.0"
   }
 }

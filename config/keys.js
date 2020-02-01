@@ -1,8 +1,7 @@
-// keys.js - figure out what set of credentials to return
-if (process.env.NODE_ENV === 'production') {
-  // we are in production - return the prod set of keys
-  module.exports = require('./prod');
-} else {
-  // we are in development - return the dev keys!!!
-  module.exports = require('./dev');
-}
+module.exports = process.env.NODE_ENV === 'production' ? {
+  production: true,
+  googleClientID: process.env.GOOGLE_CLIENT_ID,
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  mongoURI: process.env.MONGO_URI,
+  expressSessionSecret: process.env.EXPRESS_SESSION_SECRET,
+} : require('./dev');

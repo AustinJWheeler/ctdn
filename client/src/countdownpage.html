@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Cutive+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>New Countdown</title>
+    <style>
+
+        body, html {
+            overflow: hidden;
+        }
+
+        html {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1em;
+            height: 100vh;
+            color: #222222;
+            background-color: #fbfbfb;
+            margin: 0;
+        }
+
+        body {
+            /*font-family: '-apple-system', sans-serif;*/
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            /*font-family: 'Helvetica Neue', sans-serif;*/
+            height: 100vh;
+            font-size: 1em;
+        }
+
+        p {
+            padding: 0;
+            margin: 0;
+        }
+
+        .content {
+            min-height: 90%;
+            display: grid;
+            justify-items: center;
+            grid-template-rows: 1fr auto auto auto 1fr;
+        }
+
+        .title {
+            font-size: 1.1em;
+            line-height: normal;
+            max-width: 50em;
+            width: 80%;
+            grid-row: 2;
+            display: grid;
+            justify-items: center;
+        }
+
+        .timer {
+            font-family: 'Cutive Mono', monospace;
+            grid-row: 3;
+            font-size: 2em;
+            padding: 0.5em 0;
+        }
+
+        .hidden {
+            grid-row: 4;
+            font-weight: lighter;
+            font-size: 1.1em;
+            line-height: normal;
+            max-width: 50em;
+            width: 80%;
+            display: grid;
+            justify-items: center;
+        }
+
+        .fadein {
+            animation: appear 0.6s linear;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                max-height: 0;
+            }
+
+            20% {
+                opacity: 0;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                max-height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div class="title">
+        <p>Lorem ipsum dolor sit amet</p>
+    </div>
+    <div class="timer">
+        <p>03:41:05</p>
+    </div>
+    <div class="hidden fadein">
+        <p>lorem100</p>
+    </div>
+</div>
+</body>
+</html>

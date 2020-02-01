@@ -1,45 +1,31 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actions from '../actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 import Landing from './Landing';
 import Dashboard from './Dashboard';
+import NewCountdown from "./NewCountdown";
+import Countdown from "./Countdown";
 
-class App extends Component {
-  componentDidMount() {
-    this.props.loadUser();
-  }
+const App = props => {
 
-  renderLoginButton(auth) {
-    return auth === null ?
-      null :
-      <a href={auth ? "/api/logout" : "/auth/google"} className="btn btn-light">
-        {auth ? "Logout" : "Login"}
-      </a>;
-  }
+  useEffect(() => {
+    if (props.auth === null)
+      props.loadUser();
+  });
 
-  render() {
-    return (
-      <div className="app">
-        <BrowserRouter>
-          <div className="card w-75">
-            <div className="card-body">
-              <h5 className="card-title">Header</h5>
-              <p className="card-text"></p>
-              {this.renderLoginButton(this.props.auth)}
-              <a href="/" className="btn btn-light">Home</a>
-              <a href="/countdowns" className="btn btn-light">Countdowns</a>
-            </div>
-          </div>
-          <Route exact path="/" component={Landing}/>
-          <Route exact path="/countdowns" component={Dashboard}/>
-        </BrowserRouter>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="app">
+      <BrowserRouter>
+        <Route exact path="/" component={Landing}/>
+        <Route exact path="/countdowns" component={Dashboard}/>
+        <Route exact path="/new" component={NewCountdown}/>
+        <Route exact path="/:key" component={Countdown}/>
+      </BrowserRouter>
+    </div>
+  );
+};
 
 function mapStateToProps({auth}) {
   return {auth};

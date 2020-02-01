@@ -4,17 +4,24 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const expressSession = require('express-session');
 const connectMongodbSession = require('connect-mongodb-session');
+const http = require('http');
+const expressWs = require('express-ws');
 
 const keys = require('./config/keys');
 require('./database');
+const events = require('./eventManager')();
 
 const app = express();
+const server = http.createServer(app);
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+expressWs(app, server);
+
+require('./routes/websocket')(app);
 
 // Session
 app.use(expressSession({
@@ -33,6 +40,9 @@ app.use(expressSession({
 // Oauth Routes
 require('./passport')(app);
 
+require('./routes/routes')(app, events);
+
 app.use('/', require('./routes/index'));
 
-module.exports = app;
+app.set('port', 5000);
+module.exports = server;

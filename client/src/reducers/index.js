@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
-import { reducer as reduxForm } from 'redux-form';
+import { combineReducers } from 'redux-loop';
 import authReducer from './authReducer';
+import dash from './dash';
 
 export default combineReducers({
   auth: authReducer,
-  form: reduxForm
+  dash: dash,
 });

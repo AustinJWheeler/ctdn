@@ -11,7 +11,7 @@ export default function (state = {items: null, token: null}, action) {
       if (action.payload !== state.token && action.payload !== null) return state;
       if (action.payload === null) state.token = Math.random();
 
-      const now = Date.now();
+      const now = Date.now() - state.items[0].delay;
       
       const list = state.items.map(x => {
           const calc = calculateDisplay(x, now);

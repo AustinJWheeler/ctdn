@@ -13,7 +13,10 @@ export const loadCountdowns = (key = null) => dispatch => {
     .then(x => (key ? [x] : x))
     .then(res => {
       const now = Date.now();
-      dispatch({type: SET_DASHBOARD, payload: res.map(x => ({...x, now: undefined, delay: now - x.now}))});
+      dispatch({type: SET_DASHBOARD, payload: res
+          .map(x => ({...x, now: undefined, delay: now - x.now, ending: new Date(x.ending)}))
+          .sort((a,b) => a.ending - b.ending).reverse()
+      });
       dispatch({type: UPDATE_TIMERS, payload: null});
     });
 };

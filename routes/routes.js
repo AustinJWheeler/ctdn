@@ -7,14 +7,12 @@ const Counter = mongoose.model('counters');
 
 const cipher = require('../cipher');
 
-module.exports = (app, events) => {
+module.exports = (app) => {
 
   app.get('/api/countdowns/:key', (req, res) => {
     Countdown.findOne({key: req.params.key}).then(x => {
       const now = Date.now();
       const showMessage = x.ending.getTime() < now;
-      console.log(now);
-      console.log(x.ending.getTime());
       res.send({
         ending: x.ending,
         message: x.message,

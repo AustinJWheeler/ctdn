@@ -9,7 +9,6 @@ const expressWs = require('express-ws');
 
 const keys = require('./config/keys');
 require('./database');
-const events = require('./eventManager')();
 
 const app = express();
 const server = http.createServer(app);
@@ -40,7 +39,7 @@ app.use(expressSession({
 // Oauth Routes
 require('./passport')(app);
 
-require('./routes/routes')(app, events);
+require('./routes/routes')(app);
 
 app.use('/', require('./routes/index'));
 

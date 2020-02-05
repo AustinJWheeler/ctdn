@@ -5,6 +5,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Cutive+Mono&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono&display=swap" rel="stylesheet">
 
     <meta charset="UTF-8">
     <title>New Countdown</title>
@@ -25,23 +26,25 @@
 
         body {
             /*font-family: '-apple-system', sans-serif;*/
-            font-family: 'Raleway', sans-serif;
-            font-weight: 100;
             /*font-family: 'Helvetica Neue', sans-serif;*/
             height: 100vh;
             font-size: 1em;
         }
 
-        p {
+        .timerContent p {
             padding: 0;
             margin: 0;
         }
 
-        .content {
+        .timerContent {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
             min-height: 90%;
             display: grid;
             justify-items: center;
             grid-template-rows: 1fr auto auto auto 1fr;
+            color: #222222;
+            background-color: #fbfbfb;
         }
 
         .title {
@@ -55,7 +58,8 @@
         }
 
         .timer {
-            font-family: 'Cutive Mono', monospace;
+            /*font-family: 'Cutive Mono', monospace;*/
+            font-family: 'PT Mono', monospace;
             grid-row: 3;
             font-size: 2em;
             padding: 0.5em 0;
@@ -73,7 +77,7 @@
         }
 
         .fadein {
-            animation: appear 0.6s linear;
+            animation: appear 1.2s ease-in;
             animation-fill-mode: forwards;
         }
 
@@ -83,22 +87,22 @@
                 max-height: 0;
             }
 
-            20% {
+            10% {
                 opacity: 0;
             }
 
-            80% {
+            40% {
                 opacity: 1;
             }
 
             100% {
-                max-height: 80vh;
+                max-height: 75vh;
             }
         }
     </style>
 </head>
 <body>
-<div class="content">
+<div class="timerContent">
     <div class="title">
         <p>Lorem ipsum dolor sit amet</p>
     </div>
@@ -106,7 +110,7 @@
         <p>03:41:05</p>
     </div>
     <div class="hidden fadein">
-        <p>lorem100</p>
+        <p>lorem300</p>
     </div>
 </div>
 </body>

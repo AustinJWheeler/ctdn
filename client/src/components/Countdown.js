@@ -28,6 +28,7 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
       };
       ws.onmessage = (e) => {
         timer.hiddenMessage = e.data;
+        timer.animate = true;
         ws.close();
       };
       return () => {
@@ -37,16 +38,17 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
   }, [timer, key, endApproaching]);
 
   return !timer ? null : (
-    <div>
-      <h1>Countdown</h1>
-      <div>
-        <p>{timer.key}</p>
-        <p>{timer.message}</p>
-        <p>{timer.hiddenMessage}</p>
-        <p>{timer.displayTime}</p>
+      <div className="timerContent">
+        <div className="title">
+          <p>{timer.message}</p>
+        </div>
+        <div className="timer">
+          <p>{timer.displayTime}</p>
+        </div>
+        <div className={"hidden " + (timer.animate ? "fadein" : "")}>
+          <p>{timer.hiddenMessage}</p>
+        </div>
       </div>
-      <pre>{JSON.stringify(props, null, 2)}</pre>
-    </div>
   );
 });
 

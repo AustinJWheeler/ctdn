@@ -4,7 +4,7 @@ import Header from "./Header";
 const Landing = () => {
   return (
     <div>
-      <Header/>
+      <Header page="home"/>
       <div style={{ textAlign: 'center' }}>
         <h1>
           Hello!

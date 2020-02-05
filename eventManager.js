@@ -7,10 +7,10 @@ module.exports = () => {
     cache: [],
   };
 
-  updateCache = (fireDate, callback = null) => {
+    updateCache = (fireDate, callback = null) => {
     Countdown.where({
       ending: {
-        $gte: fireDate,
+        $gte: fireDate - (1000 * 60 * 2),
         $lte: new Date(fireDate + (1000 * 60 * 8))
       }
     }).then(x => {
@@ -25,7 +25,7 @@ module.exports = () => {
       if (callback) callback();
     });
   };
-  updateCache(Date.now(), () => node_schedule.scheduleJob('0 * * * * *', updateCache));
+  updateCache(Date.now(), () => node_schedule.scheduleJob('50 * * * * *', updateCache));
 
   return {
     subscribe: (key, callback) => {

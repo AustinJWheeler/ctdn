@@ -7,11 +7,12 @@ module.exports = () => {
     cache: [],
   };
 
-    updateCache = (fireDate, callback = null) => {
+  updateCache = (fireDate, callback = null) => {
+    fireDate = (new Date(fireDate)).getTime();
     Countdown.where({
       ending: {
         $gte: fireDate - (1000 * 60 * 2),
-        $lte: new Date(fireDate + (1000 * 60 * 8))
+        $lte: fireDate + (1000 * 60 * 8),
       }
     }).then(x => {
       countdowns.cache = x.map(x => (

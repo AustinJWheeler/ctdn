@@ -3,18 +3,6 @@ import {connect} from 'react-redux';
 import * as actions from '../actions';
 import Header from "./Header";
 
-const renderCards = props => {
-  return props.dash.items ?
-    props.dash.items.map(x =>
-      <div key={x.key}>
-        <a target="_blank" rel="noopener noreferrer" href={'/' + x.key}>{x.key}</a>
-        <p>{x.message}</p>
-        <p>{x.hiddenMessage}</p>
-        <p>{x.displayTime}</p>
-      </div>) :
-    '';
-};
-
 const Dashboard = props => {
 
   useEffect(() => {
@@ -45,8 +33,8 @@ const Dashboard = props => {
                       {/*  Copy*/}
                       {/*</button>*/}
                     </div>
-                    <div className="card-body py-3">
-                      <h5 className="m-0 mr-auto text-dark pb-2">Title</h5>
+                    <div className="card-body pb-3 pt-0">
+                      {x.message ? <h5 className="m-0 mr-auto text-dark pb-2 pt-3">Title</h5> : null}
                       <p className="m-0 font-weight-light">{x.message}</p>
                       <h5 className="m-0 mr-auto text-dark pb-2 pt-3">Expiration</h5>
                       {/*<p className="m-0 font-weight-light">{x.ending}</p>*/}
@@ -54,7 +42,7 @@ const Dashboard = props => {
                         { hour: 'numeric', minute: '2-digit', timeZoneName:'short'})}</p>
                       <p className="m-0 font-weight-light">{x.ending.toLocaleDateString("en-US",
                         {year: 'numeric', month: 'long', day: 'numeric'})}</p>
-                      <h5 className="m-0 mr-auto text-dark pb-2 pt-3">Timeout Message</h5>
+                      {x.hiddenMessage ? <h5 className="m-0 mr-auto text-dark pb-2 pt-3">Timeout Message</h5> : null}
                       <p className="m-0 font-weight-light">{x.hiddenMessage}</p>
                       {/*<a href="#" className="btn btn-danger float-right mt-2">Edit</a>*/}
                     </div>

@@ -6,7 +6,7 @@ import {dateToString, dateToTimeString, parseInputDate, parseInputDateTime} from
 import Header from "./Header";
 
 const validate = values => {
-  const now = new Date(Date.now() + (1000 * 60 * 5));
+  const now = new Date(Date.now() + (1000 * 60 * 2));
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const errors = {};
   if (parseInputDate(values.date) < today)

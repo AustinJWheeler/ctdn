@@ -6,13 +6,15 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
 (props => {
   const key = props.match.params.key;
   const timer = props.dash.items && props.dash.items.find(item => item.key === key);
-  const endApproaching = timer && timer.displayTime &&
-    parseInt(timer.displayTime.split('').reverse().slice(3, 5).reverse().join(''), 10) < 2;
+  const timerOut = timer && timer.displayTime === '00:00';
+  const endApproaching = timer && timer.displayTime && !timerOut &&
+    timer.displayTime.substring(0, 2) === '00';
+
+  const {loadCountdowns, setHidden} = props;
 
   useEffect(() => {
-    props.loadCountdowns(key);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
+    loadCountdowns(key);
+  }, [key, loadCountdowns]);
 
   useEffect(() => {
     if (timer)
@@ -27,28 +29,25 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
         ws.send(key);
       };
       ws.onmessage = (e) => {
-        timer.hiddenMessage = e.data;
-        timer.animate = true;
+        setHidden(key, e.data);
         ws.close();
       };
-      return () => {
-        ws.close();
-      };
+      setTimeout(() => ws.close(), 1000 * 70);
     }
-  }, [timer, key, endApproaching]);
+  }, [timer, key, endApproaching, setHidden]);
 
   return !timer ? null : (
-      <div className="timerContent">
-        <div className="title">
-          <p>{timer.message}</p>
-        </div>
-        <div className="timer">
-          <p>{timer.displayTime}</p>
-        </div>
-        <div className={"hidden " + (timer.animate ? "fadein" : "")}>
-          <p>{timer.hiddenMessage}</p>
-        </div>
+    <div className="timerContent">
+      <div className="title">
+        <p>{timer.message}</p>
       </div>
+      <div className="timer">
+        <p>{timer.displayTime}</p>
+      </div>
+      <div className={"hidden " + (timer.animate ? "fadein" : "")}>
+        <p>{timer.hiddenMessage}</p>
+      </div>
+    </div>
   );
 });
 

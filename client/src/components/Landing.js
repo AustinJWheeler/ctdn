@@ -6,8 +6,8 @@ const Landing = () => {
     <div>
       <Header page="home"/>
       <div style={{ textAlign: 'center' }}>
-        <h1>
-          Hello!
+        <h1 className='mt-5'>
+          Create a sharable countdown for any event
         </h1>
       </div>
     </div>

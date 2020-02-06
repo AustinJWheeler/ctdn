@@ -41,7 +41,7 @@ require('./passport')(app);
 
 require('./routes/routes')(app);
 
-app.use('/', require('./routes/index'));
+// app.use('/', require('./routes/index'));
 
 if (process.env.NODE_ENV === 'production') {
     // Express will serve up production assets

@@ -27,9 +27,10 @@ require('./routes/websocket')(app);
 // Session
 app.use(expressSession({
     secret: keys.expressSessionSecret,
+    proxy: process.env.NODE_ENV === 'production',
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-        // secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === 'production',
     },
     store: new (connectMongodbSession(expressSession))({
         uri: keys.mongoURI,

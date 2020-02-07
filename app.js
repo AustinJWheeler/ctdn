@@ -29,7 +29,7 @@ app.use(expressSession({
     secret: keys.expressSessionSecret,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-        secure: process.env.NODE_ENV === 'production',
+        // secure: process.env.NODE_ENV === 'production',
     },
     store: new (connectMongodbSession(expressSession))({
         uri: keys.mongoURI,

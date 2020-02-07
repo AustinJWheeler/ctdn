@@ -6,6 +6,7 @@ const expressSession = require('express-session');
 const connectMongodbSession = require('connect-mongodb-session');
 const http = require('http');
 const expressWs = require('express-ws');
+const expressSslify = require('express-sslify');
 
 const keys = require('./config/keys');
 require('./database');
@@ -17,7 +18,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+if (process.env.NODE_ENV === 'production')
+    app.use(expressSslify.HTTPS({ trustProtoHeader: true }));
 expressWs(app, server);
 
 require('./routes/websocket')(app);

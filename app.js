@@ -28,7 +28,8 @@ require('./routes/websocket')(app);
 app.use(expressSession({
     secret: keys.expressSessionSecret,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        secure: process.env.NODE_ENV === 'production',
     },
     store: new (connectMongodbSession(expressSession))({
         uri: keys.mongoURI,
@@ -36,7 +37,6 @@ app.use(expressSession({
     }),
     resave: false,
     saveUninitialized: true,
-    secure: process.env.NODE_ENV === 'production',
 }));
 
 // Oauth Routes

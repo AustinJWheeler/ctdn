@@ -18,8 +18,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// if (process.env.NODE_ENV === 'production')
-//     app.use(expressSslify.HTTPS({ trustProtoHeader: true }));
+if (process.env.NODE_ENV === 'production')
+    app.use(expressSslify.HTTPS({ trustProtoHeader: true }));
 expressWs(app, server);
 
 require('./routes/websocket')(app);

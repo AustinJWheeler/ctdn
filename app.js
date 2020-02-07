@@ -36,7 +36,7 @@ app.use(expressSession({
     }),
     resave: false,
     saveUninitialized: true,
-    secure: process.env.NODE_ENV === 'production',
+    // secure: process.env.NODE_ENV === 'production',
 }));
 
 // Oauth Routes

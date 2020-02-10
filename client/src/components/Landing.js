@@ -1,7 +1,9 @@
 import React from 'react';
 import Header from "./Header";
+import {connect} from "react-redux";
+import * as actions from "../actions";
 
-const Landing = () => {
+const Landing = props => {
   return (
     <div>
       <Header page="home"/>
@@ -12,12 +14,24 @@ const Landing = () => {
         <h2 className='m-5'>
           Sign in with google to get started
         </h2>
-        <a href="/auth/google" className="btn btn-danger">
-          Sign in
-        </a>
+        {props.auth === null ?
+          null :
+          (props.auth ? (
+            <a href="/new" className="btn btn-danger">
+              New Countdown
+            </a>
+          ) : (
+            <a href="/auth/google" className="btn btn-danger">
+              Sign in
+            </a>
+          ))}
       </div>
     </div>
   );
 };
 
-export default Landing;
+function mapStateToProps({auth}) {
+  return {auth};
+}
+
+export default connect(mapStateToProps, actions)(Landing);

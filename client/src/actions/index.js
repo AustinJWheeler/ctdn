@@ -12,6 +12,7 @@ export const loadCountdowns = (key = null) => dispatch => {
     .then(x => x.json())
     .then(x => (key ? [x] : x))
     .then(res => {
+      if (!Array.isArray(res)) return;
       const now = Date.now();
       dispatch({
         type: SET_DASHBOARD, payload: res

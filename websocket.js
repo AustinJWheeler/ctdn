@@ -1,4 +1,4 @@
-const events = require('../eventManager')();
+const events = require('./eventManager')();
 
 module.exports = app => {
   app.ws('/api/socket', ws => {

@@ -1,11 +1,11 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
-const requireLogin = require('../require-login');
+const requireLogin = require('./require-login');
 
 const Countdown = mongoose.model('countdowns');
 const Counter = mongoose.model('counters');
 
-const cipher = require('../cipher');
+const cipher = require('./cipher');
 
 module.exports = (app) => {
 

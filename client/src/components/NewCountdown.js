@@ -31,10 +31,21 @@ const submit = (values, params, props) => {
 };
 
 const NewCountdown = props => {
+
+  const items = props.dash.items;
+  const auth = props.auth;
+  const loadCountdowns = props.loadCountdowns;
+  const history = props.history;
+
   useEffect(() => {
-    if (props.dash.items === null)
-      props.loadCountdowns();
-  });
+    if (auth !== null && !auth)
+      history.push('/');
+  }, [auth, history]);
+
+  useEffect(() => {
+    if (items === null)
+      loadCountdowns();
+  }, [items, loadCountdowns]);
 
   const initalDate = new Date(Date.now() + (1000 * 60 * 60 * 3));
   initalDate.setMinutes(0);
@@ -98,34 +109,6 @@ const NewCountdown = props => {
                   Create
                 </button>
               </div>
-
-
-              {/*<input*/}
-              {/*  type='text'*/}
-              {/*  name='message'*/}
-              {/*  onChange={props.handleChange}*/}
-              {/*  onBlur={props.handleBlur}*/}
-              {/*  value={props.values.message}/>*/}
-              {/*{props.errors.message && props.touched.message && props.errors.message}*/}
-              {/*<input*/}
-              {/*  type='text'*/}
-              {/*  name='hidden'*/}
-              {/*  onChange={props.handleChange}*/}
-              {/*  onBlur={props.handleBlur}*/}
-              {/*  value={props.values.hidden}/>*/}
-              {/*<input*/}
-              {/*  type="date"*/}
-              {/*  name="date"*/}
-              {/*  onChange={props.handleChange}*/}
-              {/*  onBlur={props.handleBlur}*/}
-              {/*  value={props.values.date}*/}
-              {/*  min={dateString}/>*/}
-              {/*<input*/}
-              {/*  type="time"*/}
-              {/*  name="time"*/}
-              {/*  onChange={props.handleChange}*/}
-              {/*  onBlur={props.handleBlur}*/}
-              {/*  value={props.values.time}/>*/}
             </form>
           )}
         </Formik>

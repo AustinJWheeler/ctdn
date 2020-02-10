@@ -52,7 +52,7 @@ const Header = props => {
             <li className="nav-item active">
               <a href="/auth/google" className="btn btn-danger pl-2 pr-3">
                 {userIcon()}
-                Login
+                Sign in
               </a>
             </li>
           </ul>

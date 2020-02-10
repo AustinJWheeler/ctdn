@@ -5,10 +5,20 @@ import Header from "./Header";
 
 const Dashboard = props => {
 
+  const items = props.dash.items;
+  const auth = props.auth;
+  const loadCountdowns = props.loadCountdowns;
+  const history = props.history;
+
   useEffect(() => {
-    if (props.dash.items === null)
-      props.loadCountdowns();
-  });
+    if (auth !== null && !auth)
+      history.push('/');
+  }, [auth, history]);
+
+  useEffect(() => {
+    if (items === null)
+      loadCountdowns();
+  }, [items, loadCountdowns]);
 
   return (
     <div className="h-100 d-flex align-items-stretch flex-column">

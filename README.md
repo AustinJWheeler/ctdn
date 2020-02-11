@@ -1,6 +1,6 @@
 # ctdn.io
 
-[production site here](ctdn.io)
+[production site here](https://ctdn.io)
 
 ### Installing
 

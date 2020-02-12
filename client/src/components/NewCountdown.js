@@ -118,8 +118,8 @@ const NewCountdown = props => {
   );
 };
 
-function mapStateToProps({auth, dash}) {
-  return {auth, dash};
+function mapStateToProps(state) {
+  return {auth: state[0].auth, dash: state[0].dash};
 }
 
 export default connect(mapStateToProps, actions)(NewCountdown);

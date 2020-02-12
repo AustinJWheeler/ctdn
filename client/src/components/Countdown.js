@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions';
 
-const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
+const Countdown = connect(state => ({auth: state[0].auth, dash: state[0].dash}), actions)
 (props => {
   const key = props.match.params.key;
   const timer = props.dash.items && props.dash.items.find(item => item.key === key);

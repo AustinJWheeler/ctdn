@@ -1,4 +1,5 @@
-import {SET_USER, SET_DASHBOARD, UPDATE_TIMERS, UPDATE_HIDDEN} from './types';
+import {SET_USER, SET_DASHBOARD} from './types';
+import {fetchCountdowns} from "./queries";
 
 export const loadUser = () => dispatch => {
   fetch('/api/current_user').then(x => x.json())
@@ -8,9 +9,7 @@ export const loadUser = () => dispatch => {
 };
 
 export const loadCountdowns = (key = null) => dispatch => {
-  fetch('/api/countdowns' + (key ? '/' + key : ''))
-    .then(x => x.json())
-    .then(x => (key ? [x] : x))
+  fetchCountdowns(key)
     .then(res => {
       if (!Array.isArray(res)) return;
       const now = Date.now();
@@ -18,10 +17,5 @@ export const loadCountdowns = (key = null) => dispatch => {
         type: SET_DASHBOARD, payload: res
           .map(x => ({...x, now: undefined, delay: now - x.now, ending: new Date(x.ending)}))
       });
-      dispatch({type: UPDATE_TIMERS, payload: null});
     });
-};
-
-export const setHidden = (key, hidden) => {
-  return {type: UPDATE_HIDDEN, payload: {key, hidden}};
 };

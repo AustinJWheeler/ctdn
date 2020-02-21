@@ -5,7 +5,7 @@ import Header from "./Header";
 
 const Dashboard = props => {
 
-  const items = props.dash.items;
+  const items = props.dash && props.dash.items;
   const auth = props.auth;
   const loadCountdowns = props.loadCountdowns;
   const history = props.history;
@@ -29,8 +29,8 @@ const Dashboard = props => {
       <div className="container-xl mb-auto">
         <div className="row row-cols-md-2 row-cols-1 mx-3 mt-3">
           {
-            props.dash.items ?
-              props.dash.items.map(x =>
+            items ?
+              items.map(x =>
                 <div className="col p-2" key={x.key}>
                   <div className="card">
                     <div className="card-header d-flex justify-content-start align-items-center">

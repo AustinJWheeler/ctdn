@@ -1,24 +1,41 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions';
+import {fetchCountdown} from "../actions/queries";
+import {calculateDisplay} from "../timer";
 
 const Countdown = connect(state => ({auth: state[0].auth, dash: state[0].dash}), actions)
 (props => {
   const key = props.match.params.key;
-  const timer = props.dash.items && props.dash.items.find(item => item.key === key);
-  const timerOut = timer && timer.displayTime === '00:00';
-  const endApproaching = timer && timer.displayTime && !timerOut &&
-    timer.displayTime.substring(0, 2) === '00';
-
-  const {loadCountdowns, setHidden} = props;
+  const [timer, setTimer] = useState();
+  const [displayTime, setDisplayTime] = useState();
+  const timerOut = timer && displayTime === '00:00';
+  const endApproaching = timer && displayTime && !timerOut &&
+    displayTime.substring(0, 2) === '00';
 
   useEffect(() => {
-    loadCountdowns(key);
-  }, [key, loadCountdowns]);
+    if (!timer) return;
+    const calc = calculateDisplay(timer, Date.now());
+    if (calc.display === displayTime) return;
+    setDisplayTime(p => calc.display);
+    if (calc.delay && calc.display !== '00:00')
+      setTimeout(() => setDisplayTime(p => null), calc.delay);
+  }, [timer, displayTime]);
+
+  useEffect(() => {
+    fetchCountdown(key)
+      .then(x => {
+        const now = Date.now();
+        x.delay = now - x.now;
+        x.now = undefined;
+        x.ending = new Date(x.ending);
+        setTimer(prev => x);
+      });
+  }, [key]);
 
   useEffect(() => {
     if (timer)
-      document.title = timer.displayTime;
+      document.title = displayTime;
   });
 
   useEffect(() => {
@@ -29,12 +46,12 @@ const Countdown = connect(state => ({auth: state[0].auth, dash: state[0].dash}),
         ws.send(key);
       };
       ws.onmessage = (e) => {
-        setHidden(key, e.data);
+        setTimer(p => ({...p, hiddenMessage: e.data}));
         ws.close();
       };
       setTimeout(() => ws.close(), 1000 * 70);
     }
-  }, [timer, key, endApproaching, setHidden]);
+  }, [timer, key, endApproaching]);
 
   return !timer ? null : (
     <div className="timerContent">
@@ -42,7 +59,7 @@ const Countdown = connect(state => ({auth: state[0].auth, dash: state[0].dash}),
         <p>{timer.message}</p>
       </div>
       <div className="timer">
-        <p>{timer.displayTime}</p>
+        <p>{displayTime}</p>
       </div>
       <div className={"hidden " + (timer.animate ? "fadein" : "")}>
         <p>{timer.hiddenMessage}</p>

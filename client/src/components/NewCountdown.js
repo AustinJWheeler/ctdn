@@ -32,7 +32,7 @@ const submit = (values, params, props) => {
 
 const NewCountdown = props => {
 
-  const items = props.dash.items;
+  const items = props.dash && props.dash.items;
   const auth = props.auth;
   const loadCountdowns = props.loadCountdowns;
   const history = props.history;
@@ -47,6 +47,7 @@ const NewCountdown = props => {
       loadCountdowns();
   }, [items, loadCountdowns]);
 
+  const minDate = dateToString(new Date(Date.now()));
   const initalDate = new Date(Date.now() + (1000 * 60 * 60 * 3));
   initalDate.setMinutes(0);
   const dateString = dateToString(initalDate);
@@ -90,7 +91,7 @@ const NewCountdown = props => {
                          onChange={props.handleChange}
                          onBlur={props.handleBlur}
                          value={props.values.date}
-                         min={dateString}/>
+                         min={minDate}/>
                   <p className="display-error"><ErrorMessage name="date"/></p>
                 </div>
                 <div className="form-group col-6">

@@ -43,6 +43,7 @@ const init = () => {
           {AttributeName: "user", AttributeType: "S"},
           {AttributeName: "ending_key", AttributeType: "S"},
           {AttributeName: "ending_min", AttributeType: "N"},
+          {AttributeName: "googleId", AttributeType: "S"},
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 1,
@@ -54,6 +55,17 @@ const init = () => {
             KeySchema: [
               {AttributeName: 'user', KeyType: 'HASH'},
               {AttributeName: 'ending_key', KeyType: 'RANGE'},
+            ],
+            Projection: {ProjectionType: 'ALL'},
+            ProvisionedThroughput: {
+              ReadCapacityUnits: 1,
+              WriteCapacityUnits: 1,
+            },
+          },
+          {
+            IndexName: 'by_google',
+            KeySchema: [
+              {AttributeName: 'googleId', KeyType: 'HASH'},
             ],
             Projection: {ProjectionType: 'ALL'},
             ProvisionedThroughput: {
@@ -186,6 +198,20 @@ const init = () => {
       (err, data) => err ? reject(err) : resolve(data))))
     .then(data => data.Attributes.autoinc.N);
 
+  const getUserByGoogleId = googleId => (new Promise((resolve, reject) =>
+    dynamodb.query(
+      {
+        TableName: "ctdn",
+        KeyConditionExpression: 'googleId = :g',
+        ExpressionAttributeValues: {':g': {S: googleId}},
+        IndexName: 'by_google'
+      },
+      (err, data) => err ? reject(err) : resolve(data))))
+    .then(x => x.Items.length && {
+      googleId: x.Items[0].googleId.S,
+      uuid: x.Items[0].pk.S.substring(2),
+    });
+
   return {
     dropTable,
     createTable,
@@ -194,6 +220,7 @@ const init = () => {
     getCountdownsByUser,
     getCountdownsByEnding,
     getCountdownsByEndingRange,
+    getUserByGoogleId,
     createUser,
     createCountdown,
   };
@@ -202,13 +229,15 @@ const init = () => {
 module.exports = init;
 
 // const db = init();
-// db.dropTable()
-//   .then(() => db.createTable())
+// new Promise(resolve => resolve())
+//   .then(db.dropTable)
+//   .then(db.createTable)
 //   .then(() => db.createUser({googleId: '12345'}))
 //   .then(l => db.getUser(l)
 //     .then(x => db.createCountdown({user: x.uuid, ending: 60000, message: 'mes', hidden: 'hid'}))
-//     .then(x => db.getCountdown(x))
+//     .then(db.getCountdown)
 //     .then(() => db.getCountdownsByUser(l)))
 //   .then(() => db.getCountdownsByEndingRange([0, 1]))
-//   .then(x => console.log(x))
-//   .catch(x => console.log(x));
+//   .then(() => db.getUserByGoogleId('12345'))
+//   .then(console.log)
+//   .catch(console.log);

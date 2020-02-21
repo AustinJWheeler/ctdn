@@ -3,7 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const expressSession = require('express-session');
-const connectMongodbSession = require('connect-mongodb-session');
 const awsSdk = require('aws-sdk');
 const dynamodbStore = require('dynamodb-store');
 
@@ -13,7 +12,7 @@ const expressSslify = require('express-sslify');
 const debug = require('debug');
 
 const keys = require('./config/keys');
-require('./database');
+const db = require('./dynamo')();
 
 const app = express();
 app.enable('trust proxy');
@@ -27,7 +26,7 @@ if (keys.forceTLS)
   app.use(expressSslify.HTTPS({trustProtoHeader: true}));
 expressWs(app, server);
 
-require('./websocket')(app);
+require('./websocket')(app, db);
 
 awsSdk.config.update({
   accessKeyId: '',
@@ -58,11 +57,9 @@ app.use(expressSession({
 }));
 
 // Oauth Routes
-require('./passport')(app);
+require('./passport')(app, db);
 
-require('./routes')(app);
-
-// app.use('/', require('./routes/index'));
+require('./routes')(app, db);
 
 if (keys.production) {
   // Express will serve up production assets
@@ -120,17 +117,6 @@ function onListening() {
 }
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
+  const port = parseInt(val, 10);
+  return isNaN(port) ? val : port >= 0 ? port : false;
 }

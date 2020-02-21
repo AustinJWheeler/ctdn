@@ -1,6 +1,7 @@
-const events = require('./eventManager')();
+const eventManager = require('./eventManager');
 
-module.exports = app => {
+module.exports = (app, db) => {
+  const events = eventManager(db);
   app.ws('/api/socket', ws => {
     const jobs = [];
     ws.on('message', (msg) => {

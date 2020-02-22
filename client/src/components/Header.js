@@ -61,6 +61,4 @@ const Header = props => {
   );
 };
 
-const mapStateToProps = state => ({auth: state[0].auth});
-
-export default connect(mapStateToProps, actions)(Header);
+export default connect(({auth}) => ({auth}), actions)(Header);

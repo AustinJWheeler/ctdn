@@ -4,7 +4,7 @@ import * as actions from '../actions';
 import {fetchCountdown} from "../actions/queries";
 import {calculateDisplay} from "../timer";
 
-const Countdown = connect(state => ({auth: state[0].auth, dash: state[0].dash}), actions)
+const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
 (props => {
   const key = props.match.params.key;
   const [timer, setTimer] = useState();

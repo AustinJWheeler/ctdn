@@ -27,6 +27,4 @@ const App = props => {
   );
 };
 
-const mapStateToProps = state => ({auth: state[0].auth});
-
-export default connect(mapStateToProps, actions)(App);
+export default connect(({auth}) => ({auth}), actions)(App);

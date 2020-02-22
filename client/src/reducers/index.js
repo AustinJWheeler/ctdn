@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux-loop';
+import { combineReducers } from 'redux';
 import authReducer from './authReducer';
 import dash from './dash';
 

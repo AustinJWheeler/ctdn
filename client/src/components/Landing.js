@@ -30,6 +30,4 @@ const Landing = props => {
   );
 };
 
-const mapStateToProps = state => ({auth: state[0].auth});
-
-export default connect(mapStateToProps, actions)(Landing);
+export default connect(({auth}) => ({auth}), actions)(Landing);

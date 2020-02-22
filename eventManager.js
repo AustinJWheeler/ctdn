@@ -9,8 +9,7 @@ module.exports = db => {
     for (let i = fireMin - 1; i < fireMin + 8; i++) range.push(i);
 
     db.getCountdownsByEndingRange(range)
-      .then(x => countdowns.cache = x.reduce((acc, x) => acc[x.key] =
-          {ending: x.ending, hiddenMessage: x.hidden}, {}))
+      .then(x => countdowns.cache = x.reduce((acc, x) => ({...acc, [x.key]: x}), {}))
       .then(() => callback && callback());
   };
   updateCache(Date.now(), () => node_schedule.scheduleJob('50 * * * * *', updateCache));

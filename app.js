@@ -12,7 +12,7 @@ const expressSslify = require('express-sslify');
 const debug = require('debug');
 
 const keys = require('./config/keys');
-const db = require('./dynamo')();
+const db = require('./dynamodb')();
 
 const app = express();
 app.enable('trust proxy');
@@ -28,29 +28,22 @@ expressWs(app, server);
 
 require('./websocket')(app, db);
 
-awsSdk.config.update({
-  accessKeyId: '',
-  secretAccessKey: '',
-  region: "local",
-  endpoint: "http://localhost:8000"
-});
-
 // Session
 app.use(expressSession({
   secret: keys.expressSessionSecret,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     secure: keys.forceTLS,
   },
   store: new dynamodbStore({
     table: {
-      name: 'ctdn',
+      name: keys.dynamoTableName,
       hashKey: 'pk',
       hashPrefix: 's#'
     },
     keepExpired: false,
-    touchInterval: 30000, // these right? test these
-    ttl: 600000,
+    touchInterval: 1000 * 30,
+    ttl: 1000 * 60 * 60 * 24 * 7,
   }),
   resave: false,
   saveUninitialized: false,

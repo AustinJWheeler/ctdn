@@ -21,12 +21,12 @@ const Dashboard = props => {
   }, [items, loadCountdowns]);
 
   return (
-    <div className="h-100 d-flex align-items-stretch flex-column">
+    <div className="d-flex align-items-stretch flex-column">
       <Header page="dash"/>
       <div className="w-100 d-flex justify-content-center d-sm-none">
         <a href="/new" className="btn btn-danger mt-3 w-auto">New Countdown</a>
       </div>
-      <div className="container-xl mb-auto">
+      <div className="container column-max">
         <div className="row row-cols-md-2 row-cols-1 mx-3 mt-3">
           {
             items ?
@@ -61,10 +61,6 @@ const Dashboard = props => {
             ) : ''
           }
         </div>
-      </div>
-
-      <div className="w-100 d-flex justify-content-end">
-        <a href="/new" className="btn btn-danger m-4 d-none d-sm-block">New Countdown</a>
       </div>
     </div>
   );

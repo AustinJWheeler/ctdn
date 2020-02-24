@@ -16,7 +16,7 @@ const App = props => {
   });
 
   return (
-    <div className="app h-100 d-flex align-items-stretch flex-column">
+    <div className="app d-flex align-items-stretch flex-column">
       <BrowserRouter>
         <Route exact path="/" component={Landing}/>
         <Route exact path="/countdowns" component={Dashboard}/>

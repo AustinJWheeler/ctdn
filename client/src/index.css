@@ -12,6 +12,10 @@
 /*    monospace;*/
 /*}*/
 
+.column-max {
+    max-width: 1140px;
+}
+
 .timerContent p {
     padding: 0;
     margin: 0;
@@ -20,7 +24,7 @@
 .timerContent {
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
-    min-height: 90%;
+    min-height: 90vh;
     display: grid;
     justify-items: center;
     grid-template-rows: 1fr auto auto auto 1fr;

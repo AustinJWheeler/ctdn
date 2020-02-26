@@ -50,7 +50,9 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
 
   useEffect(() => {
     if (endApproaching) {
-      const ws = new WebSocket('ws://localhost:5000/api/socket');
+      const ws = new WebSocket(window.location.hostname === 'localhost'
+        ? 'ws://localhost:5000/api/socket'
+        : `ws://${window.location.host}/api/socket`);
 
       ws.onopen = () => {
         ws.send(key);

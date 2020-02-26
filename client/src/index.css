@@ -12,6 +12,12 @@
 /*    monospace;*/
 /*}*/
 
+.settings {
+    color: #222222;
+    background-color: #dddddd;
+    width: 100%;
+}
+
 .column-max {
     max-width: 1140px;
 }
@@ -24,12 +30,19 @@
 .timerContent {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
-    min-height: 90vh;
+    min-height: 100vh;
     display: grid;
     justify-items: center;
-    grid-template-rows: 1fr auto auto auto 1fr;
+    grid-template-rows: 45vh 55vh auto;
     color: #222222;
-    /*background-color: #fbfbfb;*/
+    background-color: #fbfbfb;
+}
+
+.timerUpper {
+    grid-row: 1;
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 1fr auto auto;
 }
 
 .title {
@@ -43,7 +56,6 @@
 }
 
 .timer {
-    /*font-family: 'Cutive Mono', monospace;*/
     font-family: 'PT Mono', monospace;
     grid-row: 3;
     font-size: 2em;
@@ -51,7 +63,7 @@
 }
 
 .hidden {
-    grid-row: 4;
+    grid-row: 2;
     font-weight: lighter;
     font-size: 1.1em;
     line-height: normal;
@@ -62,26 +74,17 @@
 }
 
 .fadein {
-    animation: appear 1.2s ease-in;
+    animation: appear 0.4s ease-in-out;
     animation-fill-mode: forwards;
 }
 
 @keyframes appear {
     0% {
         opacity: 0;
-        max-height: 0;
-    }
-
-    10% {
-        opacity: 0;
-    }
-
-    40% {
-        opacity: 1;
     }
 
     100% {
-        max-height: 75vh;
+        opacity: 1;
     }
 }
 

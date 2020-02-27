@@ -18,8 +18,8 @@ module.exports = (app, db) => {
       (accessToken, refreshToken, profile, done) => {
         db.getUserByGoogleId(profile.id)
           .then(existing => existing ||
-          db.createUser({googleId: profile.id})
-            .then(db.getUser))
+            db.createUser({googleId: profile.id, googleInfo: profile._json})
+              .then(db.getUser))
           .then(user => done(null, user));
       }
     )
@@ -28,24 +28,24 @@ module.exports = (app, db) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-    app.get(
-        '/auth/google',
-        passport.authenticate('google', {
-            scope: ['profile', 'email']
-        })
-    );
-    app.get(
-        '/auth/google/callback',
-        passport.authenticate('google'),
-        (req, res) => {
-            res.redirect('/countdowns');
-        }
-    );
-    app.get('/api/logout', (req, res) => {
-        req.logout();
-        res.redirect('/');
-    });
-    app.get('/api/current_user', requireLogin, (req, res) => {
-        res.send(req.user);
-    });
+  app.get(
+    '/auth/google',
+    passport.authenticate('google', {
+      scope: ['profile', 'email']
+    })
+  );
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      res.redirect('/countdowns');
+    }
+  );
+  app.get('/api/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
+  app.get('/api/current_user', requireLogin, (req, res) => {
+    res.send(req.user);
+  });
 };

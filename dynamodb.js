@@ -149,7 +149,18 @@ const init = () => {
         ConditionExpression: 'attribute_not_exists(pk)',
         Item: {
           pk: {S: `u#${uuid}`},
-          googleId: {S: user.googleId}
+          googleId: {S: user.googleId},
+          googleInfo: {
+            M: {
+              name: {S: user.googleInfo.name},
+              given_name: {S: user.googleInfo.given_name},
+              family_name: {S: user.googleInfo.family_name},
+              picture: {S: user.googleInfo.picture},
+              email: {S: user.googleInfo.email},
+              email_verified: {S: user.googleInfo.email_verified},
+              locale: {S: user.googleInfo.locale},
+            }
+          }
         },
       },
       (err, data) => err ? reject(err) : resolve(uuid));

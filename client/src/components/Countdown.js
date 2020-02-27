@@ -52,14 +52,24 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
     if (endApproaching) {
       const ws = new WebSocket(window.location.hostname === 'localhost'
         ? 'ws://localhost:5000/api/socket'
-        : `ws://${window.location.host}/api/socket`);
+        : `wss://${window.location.host}/api/socket`);
 
       ws.onopen = () => {
         ws.send(key);
       };
       ws.onmessage = (e) => {
-        setTimer(p => ({...p, hiddenMessage: e.data, animate: true}));
-        ws.close();
+        const code = e.data.split(':')[0];
+        const data = e.data.slice(code.length+1);
+        switch (code) {
+          case 'H':
+            setTimer(p => ({...p, hiddenMessage: data, animate: true}));
+            ws.close();
+            break;
+          case 'E':
+            throw new Error(data);
+          default:
+            throw new Error("invalid message code");
+        }
       };
       setTimeout(() => ws.close(), 1000 * 90); // page refresh here?
     }

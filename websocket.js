@@ -6,9 +6,10 @@ module.exports = (app, db) => {
     const jobs = [];
     ws.on('message', (msg) => {
       const job = events.subscribe(msg.toString(), (hidden) => {
-        ws.send(hidden);
+        ws.send('H:'+hidden);
       });
       if (job) jobs.push(job);
+      else ws.send('E:key not in cache');
     });
     ws.on('close', () => {
       jobs.forEach(j => j.cancel());

@@ -157,7 +157,7 @@ const init = () => {
               family_name: {S: user.googleInfo.family_name},
               picture: {S: user.googleInfo.picture},
               email: {S: user.googleInfo.email},
-              email_verified: {S: user.googleInfo.email_verified},
+              email_verified: {S: user.googleInfo.email_verified.toString()},
               locale: {S: user.googleInfo.locale},
             }
           }

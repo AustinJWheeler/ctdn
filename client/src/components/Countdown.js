@@ -13,7 +13,7 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
   const [notification, setNotification] = useState(false);
   const timerOut = timer && displayTime === '00:00';
   const endApproaching = timer && displayTime && !timerOut &&
-    displayTime.substring(0, 2) === '00';
+    displayTime.substring(0, 2) === '00' && Number.parseInt(displayTime.substring(3, 5)) < 30; // this needs to be safe
 
   useEffect(() => {
     if (notification && window.Notification && Notification.permission !== "denied")
@@ -71,7 +71,7 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
             throw new Error("invalid message code");
         }
       };
-      setTimeout(() => ws.close(), 1000 * 90); // page refresh here?
+      setTimeout(() => ws.close(), 1000 * 60); // page refresh here?
     }
   }, [key, endApproaching]);
 

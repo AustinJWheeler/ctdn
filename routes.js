@@ -24,7 +24,7 @@ module.exports = (app, db) => {
         res.send(items.map(x => ({
           ending: x.ending,
           message: x.message,
-          hiddenMessage: x.message,
+          hiddenMessage: x.hidden,
           key: x.key,
           now,
         })));

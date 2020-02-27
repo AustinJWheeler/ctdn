@@ -13,7 +13,7 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
   const [notification, setNotification] = useState(false);
   const timerOut = timer && displayTime === '00:00';
   const endApproaching = timer && displayTime && !timerOut &&
-    displayTime.substring(0, 2) === '00' && Number.parseInt(displayTime.substring(3, 5)) < 30; // this needs to be safe
+    displayTime.substring(0, 2) === '00' && Number.parseInt(displayTime.substring(3, 5)) < 30;
 
   useEffect(() => {
     if (notification && window.Notification && Notification.permission !== "denied")

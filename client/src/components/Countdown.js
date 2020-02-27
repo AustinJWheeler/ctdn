@@ -52,7 +52,7 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
     if (endApproaching) {
       const ws = new WebSocket(window.location.hostname === 'localhost'
         ? 'ws://localhost:5000/api/socket'
-        : `wss://${window.location.host}/api/socket`);
+        : `ws://${window.location.host}/api/socket`);
 
       ws.onopen = () => {
         ws.send(key);

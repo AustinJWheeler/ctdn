@@ -16,11 +16,8 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
     displayTime.substring(0, 2) === '00' && Number.parseInt(displayTime.substring(3, 5)) < 30;
 
   useEffect(() => {
-    if (notification && window.Notification && Notification.permission !== "denied")
-      Notification.requestPermission(() =>
-        timer.animate ? new Notification('Times Up!', {
-          body: 'The countdown you were watching has expired'
-        }) : null);
+    if (notification && timer.animate)
+      new Notification('Times Up!', {body: 'The countdown you were watching has expired'});
   }, [notification, timer]);
 
   useEffect(() => {
@@ -59,7 +56,7 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
       };
       ws.onmessage = (e) => {
         const code = e.data.split(':')[0];
-        const data = e.data.slice(code.length+1);
+        const data = e.data.slice(code.length + 1);
         switch (code) {
           case 'H':
             setTimer(p => ({...p, hiddenMessage: data, animate: true}));
@@ -88,12 +85,19 @@ const Countdown = connect(({auth, dash}) => ({auth, dash}), actions)
       <div className={"hidden" + (timer.animate ? " fadein" : "")}>
         <p>{timer.hiddenMessage}</p>
       </div>
-      <div className="settings">
-        <form>
-          <label htmlFor="notification">Notify me when this timer ends</label>
-          <input type="checkbox" id="notification" name="notification"
-                 onChange={e => setNotification(e.target.checked)}/>
-        </form>
+      <div className={"settings p-4" +
+      (timerOut ? " d-none" : " d-flex justify-content-center")}>
+        <button className={"btn btn-secondary" + (!notification ? "" : " d-none")} onClick={() =>
+          Notification.requestPermission().then(permission => {
+            if (permission === "granted" && !timer.animate) setNotification(true);
+            if (permission === "denied") setNotification(null);
+          })}>
+          Enable Notification
+        </button>
+        <button className={"btn btn-success " + (notification ? "" : " d-none")} onClick={() => setNotification(false)}>
+          Disable Notification
+        </button>
+        <p className={notification === null ? "p-2" : " d-none"}>(Notification permission required)</p>
       </div>
     </div>
   );

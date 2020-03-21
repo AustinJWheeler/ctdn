@@ -13,6 +13,7 @@ const debug = require('debug');
 
 const keys = require('./config/keys');
 const db = require('./dynamodb')();
+if (!keys.production) db.createTable().catch(x => x);
 
 const app = express();
 app.enable('trust proxy');
@@ -54,17 +55,17 @@ require('./passport')(app, db);
 
 require('./routes')(app, db);
 
-if (keys.production) {
+// if (keys.production) {
   // Express will serve up production assets
   // like our main.js file, or main.css file!
-  app.use(express.static('client/build'));
+  app.use(express.static('build'));
 
   // Express will serve up the index.html file
   // if it doesn't recognize the route
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
   });
-}
+// }
 
 const port = normalizePort(process.env.PORT || '5000');
 

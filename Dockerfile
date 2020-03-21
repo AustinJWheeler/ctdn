@@ -10,9 +10,6 @@ RUN npm run build
 
 WORKDIR /code
 
-COPY server/package.json /code/
-COPY server/yarn.lock /code/
-RUN yarn
 COPY server /code
 RUN mv /react/build /code/build
 

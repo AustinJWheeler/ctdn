@@ -5,7 +5,7 @@ services:
     build: dynamodb-container
   express:
     build: server
-    command: nodemon -L
+    command: yarn dlx nodemon@2.0.2 -L ./app.js
     volumes:
       - ./server:/code
   react:

@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
 
 # testing
 /coverage
@@ -24,3 +22,8 @@ yarn-error.log*
 
 #keys
 /config/dev.js
+
+#yarn
+/.yarn/unplugged
+/.yarn/build-state.yml
+/.yarn/install-state.gz

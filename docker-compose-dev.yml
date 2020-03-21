@@ -14,4 +14,4 @@ services:
       - ./client:/code
     ports:
       - "3000:3000"
-    command: npm start
+    command: yarn start

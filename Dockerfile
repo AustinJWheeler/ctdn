@@ -2,11 +2,8 @@ FROM node:12.16.1-alpine3.9
 
 WORKDIR /react
 
-COPY client/package.json /react/
-COPY client/package-lock.json /react/
-RUN npm install
 COPY client /react
-RUN npm run build
+RUN yarn build
 
 WORKDIR /code
 
